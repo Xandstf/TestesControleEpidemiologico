@@ -9,16 +9,16 @@ public class pragaTests {
 	public void runTests(WebDriver driver) {
 		System.out.println("\n\n## ## | Iniciando testes de Praga | ## ##");
 		
-		System.out.print("\n # Verificando abertura da página ");
+		System.out.print("\n # Verificando abertura da pÃ¡gina ");
 		openPageHome(driver);
 		
-		System.out.print("\n # Abrir adição de praga ");
+		System.out.print("\n # Abrir adiÃ§Ã£o de praga ");
 		openCadastro(driver);
 		
-		System.out.print("\n # Abrir alteração de praga ");
+		System.out.print("\n # Abrir alteraÃ§Ã£o de praga ");
 		openAlterar(driver);
 		
-		System.out.print("\n # Abrir exclusão de praga ");
+		System.out.print("\n # Abrir exclusÃ£o de praga ");
 		openExcluir(driver);
 		
 		System.out.print("\n # Abrir listagem de uma praga ");
@@ -30,8 +30,11 @@ public class pragaTests {
 		System.out.print("\n # Checando se os campos de Cadastro de Pragas estao habilitados ");
 		checkCamposHabilitados(driver);
 
-		System.out.println("\n # Checando o campo de tipo number ");
+		System.out.print("\n # Checando o campo de tipo number ");
 		checkNumberInput(driver);
+		
+		System.out.print("\n # Checando avanÃ§o, retorno e atualizaÃ§Ã£o da pÃ¡gina ");
+		checkNavegation(driver);
 	}
 
 
@@ -132,5 +135,28 @@ public class pragaTests {
 				System.out.print("[REPROVED]");
 			}
 		}
+	
+	public void checkNavegation(WebDriver driver) {
+		int testes = 0;
+		driver.get("http://localhost/PaginaControleEpidemiologico/index.html");
+        driver.findElement(By.partialLinkText("PRAGA")).click();
+        driver.navigate().back();
+        if (driver.getTitle().compareTo("Home - ControleEpidemiologico") == 0) {
+        	testes++;
+        } 
+        driver.navigate().forward();
+        if (driver.findElements(By.xpath("//*[contains(text(),'DASHBOARD PRAGA')]")).size() > 0) {
+        	testes++;
+        }
+        driver.navigate().refresh();
+        if (driver.findElements(By.xpath("//*[contains(text(),'DASHBOARD PRAGA')]")).size() > 0) {
+        	testes++;
+        }
+        if(testes == 3) {
+			System.out.print("[PASS]");
+		} else {
+			System.out.print("[REPROVED]");
+		}
+	}
 	
 }

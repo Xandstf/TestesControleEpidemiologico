@@ -34,9 +34,11 @@ public class localTests {
 		System.out.print("\n # Checando se os campos de Cadastro de Locais estao habilitados ");
 		checkCamposHabilitados(driver);
 
-		System.out.println("\n # Checando os campos de tipo number ");
+		System.out.print("\n # Checando os campos de tipo number ");
 		checkNumberInput(driver);
-
+		
+		System.out.print("\n # Checando avanço, retorno e atualização da página ");
+		checkNavegation(driver);
 	}
 
 	public void openPageHome(WebDriver driver) {
@@ -138,4 +140,28 @@ public class localTests {
 			}
 		}
 	}
+	
+	public void checkNavegation(WebDriver driver) {
+		int testes = 0;
+		driver.get("http://localhost/PaginaControleEpidemiologico/index.html");
+        driver.findElement(By.partialLinkText("LOCAL")).click();
+        driver.navigate().back();
+        if (driver.getTitle().compareTo("Home - ControleEpidemiologico") == 0) {
+        	testes++;
+        } 
+        driver.navigate().forward();
+        if (driver.findElements(By.xpath("//*[contains(text(),'DASHBOARD LOCAL')]")).size() > 0) {
+        	testes++;
+        }
+        driver.navigate().refresh();
+        if (driver.findElements(By.xpath("//*[contains(text(),'DASHBOARD LOCAL')]")).size() > 0) {
+        	testes++;
+        }
+        if(testes == 3) {
+			System.out.print("[PASS]");
+		} else {
+			System.out.print("[REPROVED]");
+		}
+	}
+	
 }
